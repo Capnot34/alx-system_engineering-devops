@@ -1,4 +1,9 @@
-#!/usr/bin/env bash
-# Script to parse Apache logs and display IP and HTTP status
+#!/bin/bash
 
-awk '{print $1, $9}' apache-access.log
+# Assign colon as the IFS (Internal Field Separator)
+IFS=":"
+
+# Read the /etc/passwd file line by line
+while read -r username password user_id group_id user_info home_directory command_shell; do
+    echo "The user $username is part of the $group_id gang, lives in $home_directory and rides $command_shell. $user_id's place is protected by the passcode $password, more info about the user here: $user_info"
+done < /etc/passwd
