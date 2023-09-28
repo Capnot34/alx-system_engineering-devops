@@ -88,4 +88,5 @@ Giving a narrative twist to the `/etc/passwd` file's content.
 Delving into Apache logs to understand website traffic and activity.
 
 
-**Author:** 😊 [Gift Amachree](https://www.linkedin.com/in/gift-amachree-8a523623b/)
+**Author:** 👩‍💼 [Gift Amachree](https://www.linkedin.com/in/gift-amachree-8a523623b/)
+
