@@ -87,4 +87,4 @@ Giving a narrative twist to the `/etc/passwd` file's content.
 **[Let's parse Apache logs](13-lets_parse_apache_logs)** 🕸️
 Delving into Apache logs to understand website traffic and activity.
 
-<p style="color:pink"> **Author**: Gift Amachree</p>
+**Author:** Gift Amachree
