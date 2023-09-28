@@ -1,9 +1,5 @@
-#!/bin/bash
-# Setting IFS to colon as passwd file fields are separated by colons
-IFS=":"
+#!/usr/bin/env bash
+# Script to parse Apache logs and display IP and HTTP status
 
-# Reading the /etc/passwd file line by line
-while read -r USERNAME PASSWORD USER_ID GROUP_ID USER_ID_INFO HOME_DIRECTORY COMMAND_SHELL; do
-    echo "The user $USERNAME is part of the $GROUP_ID gang, lives in $HOME_DIRECTORY and rides $COMMAND_SHELL. $USER_ID's place is protected by the passcode $PASSWORD, more info about the user here: $USER_ID_INFO"
-done < /etc/passwd
+awk '{print $1, $9}' apache-access.log
 
