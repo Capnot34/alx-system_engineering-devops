@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# This script is displaying "Best School" 10 times using the while and if loop and displaying "Hi" when the count gets to 9
+
+count=1
+while [ $count -le 9  ]
+
+do
+if [ $count -eq 9 ]
+then
+echo "Hi"
+fi
+
+echo "Best School"
+count=$((count+1))
+
+done
+
+exit 0;
