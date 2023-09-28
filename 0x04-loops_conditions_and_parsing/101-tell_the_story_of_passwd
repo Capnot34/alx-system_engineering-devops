@@ -1,9 +1,9 @@
 #!/bin/bash
-
-# Assign colon as the IFS (Internal Field Separator)
+# Setting IFS to colon as passwd file fields are separated by colons
 IFS=":"
 
-# Read the /etc/passwd file line by line
-while read -r username password user_id group_id user_info home_directory command_shell; do
-    echo "The user $username is part of the $group_id gang, lives in $home_directory and rides $command_shell. $user_id's place is protected by the passcode $password, more info about the user here: $user_info"
+# Reading the /etc/passwd file line by line
+while read -r USERNAME PASSWORD USER_ID GROUP_ID USER_ID_INFO HOME_DIRECTORY COMMAND_SHELL; do
+    echo "The user $USERNAME is part of the $GROUP_ID gang, lives in $HOME_DIRECTORY and rides $COMMAND_SHELL. $USER_ID's place is protected by the passcode $PASSWORD, more info about the user here: $USER_ID_INFO"
 done < /etc/passwd
+
