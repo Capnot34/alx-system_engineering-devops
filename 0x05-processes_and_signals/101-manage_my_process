@@ -1,58 +1,25 @@
 #!/usr/bin/env bash
 # This script manages the manage_my_process script.
 
-
-ID_FILE="/var/run/my_process.pid"
-LOG_FILE="/tmp/my_process"
-
-start() {
-    if [ ! -f $PID_FILE ]; then
-        nohup while true; do
-            echo "I am alive!" >> $LOG_FILE
-            sleep 2
-        done &
-        echo $! > $PID_FILE
-        echo "manage_my_process started"
-    else
-        echo "manage_my_process is already running"
-    fi
-}
-
-stop() {
-    if [ -f $PID_FILE ]; then
-        PID=$(cat $PID_FILE)
-        if ps -p $PID > /dev/null; then
-            kill $PID
-            rm $PID_FILE
-            echo "manage_my_process stopped"
-        else
-            echo "manage_my_process is not running but PID file exists"
-            rm $PID_FILE
-        fi
-    else
-        echo "manage_my_process is not running"
-    fi
-}
-
-restart() {
-    stop
-    sleep 1
-    start
-}
-
-case "$1" in
-    start)
-        start
-        ;;
-    stop)
-        stop
-        ;;
-    restart)
-        restart
-        ;;
-    *)
-        echo "Usage: manage_my_process {start|stop|restart}"
-        ;;
+case $1 in
+  start)
+    ./manage_my_process &
+    echo $! > /var/run/my_process.pid
+    echo "manage_my_process started"
+    ;;
+  stop)
+    kill $(cat /var/run/my_process.pid)
+    rm /var/run/my_process.pid
+    echo "manage_my_process stopped"
+    ;;
+  restart)
+    kill $(cat /var/run/my_process.pid)
+    rm /var/run/my_process.pid
+    ./manage_my_process &
+    echo $! > /var/run/my_process.pid
+    echo "manage_my_process restarted"
+    ;;
+  *)
+    echo "Usage: manage_my_process {start|stop|restart}"
+    ;;
 esac
-
-exit 0
