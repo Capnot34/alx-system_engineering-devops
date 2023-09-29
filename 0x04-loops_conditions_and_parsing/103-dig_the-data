@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
-# This script groups visitors by IP and HTTP status code, displays this data but filters out HTTP status 200 and 304
+# Parsing Apache log, grouping by IP and HTTP status code, then sorting
 
-awk '{
-    ip_status[$1 " " $9]++
-}
-END {
-    for (key in ip_status) {
-        if (key !~ / 200$/ && key !~ / 304$/) {
-            print ip_status[key], key
-        }
-    }
-}' apache-access.log | sort -nr
-
+# Parse the log for IP and HTTP status, then sort the results, group and count them, and finally sort in descending order of occurrences
+awk '{print $1, $9}' apache-access.log | sort | uniq -c | sort -nr
