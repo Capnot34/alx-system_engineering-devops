@@ -2,19 +2,33 @@
 # This script manages the manage_my_process script.
 
 
-PID_FILE="/var/run/my_process.pid"
+ID_FILE="/var/run/my_process.pid"
+LOG_FILE="/tmp/my_process"
 
 start() {
-    ./manage_my_process &
-    echo $! > $PID_FILE
-    echo "manage_my_process started"
+    if [ ! -f $PID_FILE ]; then
+        nohup while true; do
+            echo "I am alive!" >> $LOG_FILE
+            sleep 2
+        done &
+        echo $! > $PID_FILE
+        echo "manage_my_process started"
+    else
+        echo "manage_my_process is already running"
+    fi
 }
 
 stop() {
     if [ -f $PID_FILE ]; then
-        kill $(cat $PID_FILE)
-        rm $PID_FILE
-        echo "manage_my_process stopped"
+        PID=$(cat $PID_FILE)
+        if ps -p $PID > /dev/null; then
+            kill $PID
+            rm $PID_FILE
+            echo "manage_my_process stopped"
+        else
+            echo "manage_my_process is not running but PID file exists"
+            rm $PID_FILE
+        fi
     else
         echo "manage_my_process is not running"
     fi
@@ -22,8 +36,8 @@ stop() {
 
 restart() {
     stop
+    sleep 1
     start
-    echo "manage_my_process restarted"
 }
 
 case "$1" in
@@ -37,6 +51,8 @@ case "$1" in
         restart
         ;;
     *)
-        echo "Usage: $0 {start|stop|restart}"
+        echo "Usage: manage_my_process {start|stop|restart}"
         ;;
 esac
+
+exit 0
