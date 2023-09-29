@@ -1,12 +1,4 @@
 #!/usr/bin/env bash
-# This script groups visitors by IP and HTTP status code, and displays this data
+# Parsing Apache logs to display visitor IP and HTTP status code
 
-awk '{
-    ip_status[$1 " " $9]++
-}
-END {
-    for (key in ip_status) {
-        print ip_status[key], key
-    }
-}' apache-access.log | sort -nr
-
+awk '{print $1, $9}' apache-access.log
