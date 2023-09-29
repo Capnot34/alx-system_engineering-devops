@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
+# This script handles various signals.
 
-# Trap SIGTERM signal and print "I am invincible!!!" instead of terminating.
-trap "echo 'I am invincible!!!'" SIGTERM
+trap 'echo "I am invincible!!!"' SIGTERM
+trap 'echo "Y U no love me?!"' SIGINT
+trap 'rm /var/run/myscript.pid; exit' SIGQUIT
 
-# Infinite loop
+echo "$$" > /var/run/myscript.pid
+
 while true; do
-    echo "To infinity and beyond"
-    sleep 2
+  echo "To infinity and beyond"
+  sleep 2
 done
 
