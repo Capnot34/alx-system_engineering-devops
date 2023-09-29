@@ -1,21 +1,19 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
 
-int infinite_while(void)
-{
-    while (1)
-    {
-        sleep(1);
-    }
-    return (0);
-}
+int infinite_while(void);
 
+/**
+ * main - Entry point
+ *
+ * Return: Always 0.
+ */
 int main(void)
 {
-    int i;
     pid_t child_pid;
+    int i;
 
     for (i = 0; i < 5; i++)
     {
@@ -25,8 +23,22 @@ int main(void)
         else
             exit(0);
     }
+
     infinite_while();
 
     return (0);
 }
 
+/**
+ * infinite_while - Infinite loop for parent process to keep it alive
+ *
+ * Return: Always 0.
+ */
+int infinite_while(void)
+{
+    while (1)
+    {
+        sleep(1);
+    }
+    return (0);
+}
