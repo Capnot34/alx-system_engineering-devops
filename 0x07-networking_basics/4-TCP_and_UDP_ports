@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# This script displays listening ports along with the PID and program name.
+
+netstat -tuln | grep LISTEN
+
