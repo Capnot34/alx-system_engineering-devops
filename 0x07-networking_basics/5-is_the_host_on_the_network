@@ -1,9 +1,10 @@
-#!/usr/bin/env bash
-# This script pings the given IP address 5 times.
+#!/bin/bash
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 {IP_ADDRESS}"
+# Check if argument is provided
+if [ -z "$1" ]; then
+    echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
     exit 1
 fi
 
-ping -c 5 $1
+# Proceed with pinging the given IP address
+ping -c 5 "$1"
