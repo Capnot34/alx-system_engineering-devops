@@ -1,19 +1,12 @@
 # 1-install_a_package.pp
 
+# Ensure python3-pip is installed
 package { 'python3-pip':
   ensure => present,
 }
 
-exec { 'install_flask':
-  command => '/usr/bin/pip3 install Flask==2.1.0',
-  path    => '/usr/bin',
+# Install Flask version 2.1.0
+package { 'Flask':
+  ensure => '2.1.0',
   require => Package['python3-pip'],
-  notify  => Exec['update_bashrc'],
-}
-
-exec { 'update_bashrc':
-  command => 'echo "export PATH=$PATH:/usr/local/bin" >> ~/.bashrc',
-  path    => '/usr/bin',
-  onlyif  => 'test -f ~/.bashrc',
-  require => Exec['install_flask'],
 }
