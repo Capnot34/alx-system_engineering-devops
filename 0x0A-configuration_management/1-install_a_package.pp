@@ -1,4 +1,4 @@
 # This Puppet manifest installs flask from pip3
-exec { 'puppet-lint':
-  command => '/usr/bin/apt-get -y install puppet-lint -v 2.5.0',
+exec { 'install-flask':
+  command => '/usr/bin/pip3 install Flask==2.1.0',
 }
