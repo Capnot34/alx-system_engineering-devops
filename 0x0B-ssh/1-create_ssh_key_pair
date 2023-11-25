@@ -1,20 +1,3 @@
 #!/usr/bin/env bash
-# This script generates an RSA key pair named 'school' with a passphrase.
-
-# Set the file path for the key pair
-key_pair_path=~/.ssh/school
-
-# Generate the key pair and overwrite if it already exists
-ssh-keygen -t rsa -b 4096 -C "vagrant@ubuntu" -f "$key_pair_path" -N ""
-
-# Display the key generation message
-echo "Generating public/private rsa key pair."
-
-# Rename the public key file to have the correct extension
-mv "$key_pair_path" "$key_pair_path.pem"
-
-# Rename the private key file to remove the .pem extension
-mv "$key_pair_path.pem" "$key_pair_path"
-
-# Display the files created
-ls -l ~/.ssh/school*
+# Creates an RSA key pair
+ssh-keygen -f school -b 4096 -N betty
