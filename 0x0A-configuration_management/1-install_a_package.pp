@@ -6,8 +6,8 @@ package { 'flask':
   provider => 'pip3',      # Use pip3 as the package provider
 }
 
-# Install Python3 package
+# Install Python3 package using the system's package manager
 package { 'python3':
   ensure   => 'installed',   # Ensure Python3 is installed
-  provider => 'pip3',        # Use pip3 as the package provider
+  provider => 'apt',         # Use apt as the package provider
 }
