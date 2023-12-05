@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Configure Nginx custom 404 page
+
+# Modify Nginx configuration to add custom 404 page
+echo "server {
+    listen 80;
+    server_name _;
+
+    error_page 404 /404.html;
+    location = /404.html {
+        root /usr/share/nginx/html;
+        internal;
+        echo 'Ceci n'\''est pas une page.';
+    }
+
+    # Additional Nginx configurations...
+}" | sudo tee /etc/nginx/sites-available/default > /dev/null
+
+# Restart Nginx
+sudo service nginx restart
