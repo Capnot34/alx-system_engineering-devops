@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-# Ensure Nginx is stopped before making changes
-service nginx stop
+sed -i 's/#user www-data/user nginx/g' /etc/nginx/nginx.conf
+sed -i 's/80/8080/g' /etc/nginx/sites-available/default
 
-# Modify Nginx configuration to run as nginx user and listen on port 8080
-sed -i 's/user www-data;/user nginx;/g' /etc/nginx/nginx.conf
-sed -i 's/listen 80;/listen 8080;/g' /etc/nginx/sites-available/default
+
+# give owner permissions to read and write to the config file
+chmod 644 /etc/nginx/nginx.conf
+
+# apache may interfere with nginx so kill the process if it is running
+pkill apache2
 
 # Start Nginx
-service nginx start
+sudo -u nginx service nginx start
