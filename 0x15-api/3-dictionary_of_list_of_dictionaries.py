@@ -1,7 +1,18 @@
 #!/usr/bin/python3
 """
-Python script that, using this REST API, for a given employee ID,
-returns information about his/her TODO list progress and exports it to JSON.
+Export tasks of all employees to a JSON file.
+
+This script retrieves task data for all employees from a dummy API
+(https://jsonplaceholder.typicode.com) and exports it to a JSON file
+(todo_all_employees.json) in the specified format.
+
+Requirements:
+    - The requests module must be installed 
+    (you can install it using 'pip install requests').
+    - The script should be run with Python 3.
+
+Usage:
+    python3 3-dictionary_of_list_of_dictionaries.py
 """
 
 
