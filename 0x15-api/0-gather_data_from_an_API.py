@@ -4,34 +4,35 @@ Python script that, using this REST API, for a given employee ID,
 returns information about his/her TODO list progress.
 """
 
+
+import json
 import requests
 from sys import argv
 
+
 if __name__ == "__main__":
-    if len(argv) != 2 or not argv[1].isdigit():
-        print("Usage: {} employee_id".format(argv[0]))
-        exit(1)
 
-    employee_id = int(argv[1])
-    base_url = "https://jsonplaceholder.typicode.com"
+    sessionReq = requests.Session()
 
-    # Get user info
-    user_url = "{}/users/{}".format(base_url, employee_id)
-    response_user = requests.get(user_url)
-    user_data = response_user.json()
+    idEmp = argv[1]
+    idURL = 'https://jsonplaceholder.typicode.com/users/{}/todos'.format(idEmp)
+    nameURL = 'https://jsonplaceholder.typicode.com/users/{}'.format(idEmp)
 
-    # Get user's TODO list
-    todos_url = "{}/todos?userId={}".format(base_url, employee_id)
-    response_todos = requests.get(todos_url)
-    todos_data = response_todos.json()
+    employee = sessionReq.get(idURL)
+    employeeName = sessionReq.get(nameURL)
 
-    # Filter completed tasks
-    completed_tasks = [task for task in todos_data if task['completed']]
+    json_req = employee.json()
+    name = employeeName.json()['name']
 
-    # Display information
-    print("Employee {} is done with tasks({}/{}):".format(
-        user_data['name'], len(completed_tasks), len(todos_data)))
+    totalTasks = 0
 
-    for task in completed_tasks:
-        print("\t {}".format(task['title']))
+    for done_tasks in json_req:
+        if done_tasks['completed']:
+            totalTasks += 1
 
+    print("Employee {} is done with tasks({}/{}):".
+          format(name, totalTasks, len(json_req)))
+
+    for done_tasks in json_req:
+        if done_tasks['completed']:
+            print("\t " + done_tasks.get('title'))
