@@ -8,44 +8,33 @@ import json
 import requests
 from sys import argv
 
+
 if __name__ == "__main__":
-    session = requests.Session()
 
-    employee_id = argv[1]
-    todos_url = 'https://jsonplaceholder.typicode.com/users/{}/todos'
-    .format(employee_id)
-    user_url = 'https://jsonplaceholder.typicode.com/users/{}'
-    .format(employee_id)
+    sessionReq = requests.Session()
 
-    employee_response = session.get(todos_url)
-    user_response = session.get(user_url)
+    idEmp = argv[1]
+    idURL = 'https://jsonplaceholder.typicode.com/users/{}/todos'.format(idEmp)
+    nameURL = 'https://jsonplaceholder.typicode.com/users/{}'.format(idEmp)
 
-    employee_data = employee_response.json()
-    employee_name = user_response.json().get('name')
+    employee = sessionReq.get(idURL)
+    employeeName = sessionReq.get(nameURL)
 
-    total_tasks = 0
+    json_req = employee.json()
+    usr = employeeName.json()['username']
 
-    # List to store JSON objects
-    json_objects = []
+    totalTasks = []
+    updateUser = {}
 
-    for task in employee_data:
-        total_tasks += 1
-        json_objects.append({
-            "task": task['title'],
-            "completed": task['completed'],
-            "username": employee_name
-        })
+    for all_Emp in json_req:
+        totalTasks.append(
+            {
+                "task": all_Emp.get('title'),
+                "completed": all_Emp.get('completed'),
+                "username": usr,
+            })
+    updateUser[idEmp] = totalTasks
 
-    print("Employee {} is done with tasks({}/{}):".format(
-        employee_name, total_tasks, len(employee_data)))
-
-    for task in employee_data:
-        if task['completed']:
-            print("\t" + task['title'])
-
-    # Export to JSON file
-    json_file_name = '{}.json'.format(employee_id)
-    with open(json_file_name, 'w') as jsonfile:
-        json.dump({employee_id: json_objects}, jsonfile)
-
-    print("Data exported to {}".format(json_file_name))
+    file_Json = idEmp + ".json"
+    with open(file_Json, 'w') as f:
+        json.dump(updateUser, f)
