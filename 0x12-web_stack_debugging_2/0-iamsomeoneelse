@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Task 0: Run software as another user
+# Execute 'whoami' command under the specified user passed as an argument.
+
+# Run the 'whoami' command under the specified user
+sudo -u "$1" whoami
