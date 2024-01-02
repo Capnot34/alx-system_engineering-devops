@@ -1,49 +1,39 @@
 #!/usr/bin/python3
 """
-Python script that, using this REST API, for a given employee ID,
-returns information about his/her TODO list progress.
+A Script that, uses a REST API, for a given employee ID, returns
+information about his/her TODO list progress
+exporting data in the CSV format.
 """
 
 import csv
+import json
 import requests
 from sys import argv
 
+
 if __name__ == "__main__":
-    session = requests.Session()
 
-    employee_id = argv[1]
-    todos_url = 'https://jsonplaceholder.typicode.com/users/{}/todos'.format(employee_id)
-    user_url = 'https://jsonplaceholder.typicode.com/users/{}'.format(employee_id)
+    sessionReq = requests.Session()
 
-    employee_response = session.get(todos_url)
-    user_response = session.get(user_url)
+    idEmp = argv[1]
+    idURL = 'https://jsonplaceholder.typicode.com/users/{}/todos'.format(idEmp)
+    nameURL = 'https://jsonplaceholder.typicode.com/users/{}'.format(idEmp)
 
-    employee_data = employee_response.json()
-    employee_name = user_response.json().get('name')
+    employee = sessionReq.get(idURL)
+    employeeName = sessionReq.get(nameURL)
 
-    total_tasks = 0
+    json_req = employee.json()
+    usr = employeeName.json()['username']
 
-    # List to store CSV rows
-    csv_rows = []
+    totalTasks = 0
 
-    for task in employee_data:
-        if task['completed']:
-            total_tasks += 1
-            csv_rows.append([employee_id, employee_name, 'True', task['title']])
-        else:
-            csv_rows.append([employee_id, employee_name, 'False', task['title']])
+    for done_tasks in json_req:
+        if done_tasks['completed']:
+            totalTasks += 1
 
-    print("Employee {} is done with tasks({}/{}):".format(
-        employee_name, total_tasks, len(employee_data)))
+    fileCSV = idEmp + '.csv'
 
-    for task in employee_data:
-        if task['completed']:
-            print("\t" + task['title'])
-
-    # Export to CSV file
-    csv_file_name = '{}.csv'.format(employee_id)
-    with open(csv_file_name, 'w', newline='') as csvfile:
-        csv_writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
-        csv_writer.writerows(csv_rows)
-
-    print("Data exported to {}".format(csv_file_name))
+    with open(fileCSV, "w", newline='') as csvfile:
+        write = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_ALL)
+        for i in json_req:
+            write.writerow([idEmp, usr, i.get('completed'), i.get('title')])
