@@ -1,3 +1,10 @@
+#!/usr/bin/python3
+"""
+Python script that, using this REST API, for a given employee ID,
+returns information about his/her TODO list progress and exports it to JSON.
+"""
+
+
 # Fetch data for all users
 users_url = 'https://jsonplaceholder.typicode.com/users'
 users_response = session.get(users_url)
